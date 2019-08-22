@@ -12,11 +12,10 @@ class DBProvider {
     this.db
   });
 
-  Future<Database> openDB() async {
+  Future<void> openDB() async {
     Directory directory = await getExternalStorageDirectory();
     String path = join(directory.path, 'app.db');
     db = await openDatabase(path);
-    return db;
   }
 
   Future<void> closeDB() async {

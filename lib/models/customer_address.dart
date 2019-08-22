@@ -19,17 +19,35 @@ class CustomerAddress {
     this.contact
   });
 
-  set _addr1(String a) {
-    addr1 = a;
-    if ('0' == a) {
-      addr1 = '';
-    }
+  void set _addr1(String a) {
+    addr1 = '0' == a ? '' : a;
   }
 
-  set _addr2(String a) {
-    addr2 = a;
-    if ('0' == a) {
-      addr2 = '';
-    }
+  void set _addr2(String a) {
+    addr2 = '0' == a ? '' : a;
+  }
+
+  void set _addr3(String a) {
+    addr3 = '0' == a ? '' : a;
+  }
+
+  void set _postalCode(String a) {
+    postalCode = '0' == a ? '' : a;
+  }
+
+  void set _area(String a) {
+    area = '0' == a ? '' : a;
+  }
+
+  void set _territory(String a) {
+    territory = '0' == a ? '' : a;
+  }
+
+  void set _telephone(String a) {
+    telephone = '0' == a ? '' : a;
+  }
+
+  void set _contact(String a) {
+    contact = '0' == a ? '' : a;
   }
 }

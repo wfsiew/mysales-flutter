@@ -1,4 +1,4 @@
-package com.example.mysales_flutter;
+package com.mysales_flutter;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
