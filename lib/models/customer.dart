@@ -14,6 +14,7 @@ class Customer {
     );
   }
 
+  @override
   String toString() {
     if ('All' == code) {
       return code;
