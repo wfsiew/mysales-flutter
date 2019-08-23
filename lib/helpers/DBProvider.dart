@@ -4,6 +4,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:mysales_flutter/models/customer.dart';
+import 'package:mysales_flutter/models/customer_address.dart';
 import 'package:mysales_flutter/models/customer_query.dart';
 
 class DBProvider {
@@ -153,9 +154,16 @@ class DBProvider {
 
     sb.write(' order by $sort');
     String s = sb.toString();
-    print(s);
     var lx = await db.rawQuery(s);
     ls = lx.map<Customer>((x) => Customer.fromData(x)).toList();
     return ls;
+  }
+
+  Future<CustomerAddress> getCustomerAddress(String code, String name) async {
+    String q = '''select cust_addr1, cust_addr2, cust_addr3, postal_code, area, territory, telephone, contact_person 
+                  from sales where cust_code = '$code' and cust_name = '$name''';
+    var lx = await db.rawQuery(q);
+    Map<String, dynamic> m = lx.first;
+    return CustomerAddress.fromData(m);
   }
 }

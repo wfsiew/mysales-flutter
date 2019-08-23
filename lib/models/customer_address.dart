@@ -1,3 +1,5 @@
+import 'package:mysales_flutter/helpers/utils.dart';
+
 class CustomerAddress {
   String addr1;
   String addr2;
@@ -19,35 +21,16 @@ class CustomerAddress {
     this.contact
   });
 
-  void set _addr1(String a) {
-    addr1 = '0' == a ? '' : a;
-  }
-
-  void set _addr2(String a) {
-    addr2 = '0' == a ? '' : a;
-  }
-
-  void set _addr3(String a) {
-    addr3 = '0' == a ? '' : a;
-  }
-
-  void set _postalCode(String a) {
-    postalCode = '0' == a ? '' : a;
-  }
-
-  void set _area(String a) {
-    area = '0' == a ? '' : a;
-  }
-
-  void set _territory(String a) {
-    territory = '0' == a ? '' : a;
-  }
-
-  void set _telephone(String a) {
-    telephone = '0' == a ? '' : a;
-  }
-
-  void set _contact(String a) {
-    contact = '0' == a ? '' : a;
+  factory CustomerAddress.fromData(Map<String, dynamic> m) {
+    return CustomerAddress(
+      addr1: replaceZero(m['cust_addr1']),
+      addr2: replaceZero(m['cust_addr2']),
+      addr3: replaceZero(m['cust_addr3']),
+      postalCode: replaceZero(m['postal_code']),
+      area: replaceZero(m['area']),
+      territory: replaceZero(m['territory']),
+      telephone: replaceZero(m['telephone']),
+      contact: replaceZero(m['contact_person'])
+    );
   }
 }

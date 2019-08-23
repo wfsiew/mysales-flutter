@@ -23,3 +23,7 @@ String getSelected(List<String> ls, [bool useQuote = false]) {
   r = lr.join(',');
   return r;
 }
+
+String replaceZero(s) {
+  return s == '0' ? '' : s;
+}
