@@ -1,4 +1,5 @@
 class CustomerQuery {
+  String code;
   String name;
   String item;
   String productGroup;
@@ -7,6 +8,7 @@ class CustomerQuery {
   String year;
 
   CustomerQuery({
+    this.code,
     this.name,
     this.item,
     this.productGroup,

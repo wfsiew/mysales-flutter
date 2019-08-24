@@ -1,3 +1,5 @@
+import 'package:mysales_flutter/models/customer_query.dart';
+
 class CustomerItem {
   String code;
   String name;
@@ -30,4 +32,15 @@ class CustomerItem {
     this.sumbonus,
     this.sumvalue
   });
+
+  factory CustomerItem.fromData(Map<String, dynamic> m, CustomerQuery q) {
+    return CustomerItem(
+      code: q.code,
+      name: q.name,
+      item: m['item_name'],
+      unit: m['salesu'],
+      value: m['salesv'],
+      bonus: m['bonusu']
+    );
+  }
 }
