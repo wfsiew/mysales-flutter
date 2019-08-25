@@ -33,4 +33,15 @@ class CustomerAddress {
       contact: replaceZero(m['contact_person'])
     );
   }
+
+  void copy(CustomerAddress a) {
+    addr1 = a.addr1;
+    addr2 = a.addr2;
+    addr3 = a.addr3;
+    postalCode = a.postalCode;
+    area = a.area;
+    a.territory = territory;
+    telephone = a.telephone;
+    contact = a.contact;
+  }
 }

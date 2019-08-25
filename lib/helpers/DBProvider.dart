@@ -171,12 +171,11 @@ class DBProvider {
   }
 
   Future<Map<String, List<CustomerItem>>> getItemsByCustomer(
-    String code, String name, CustomerQuery q, 
-    String sort, CustomerAddress addr, List<String> ls) async {
+    String code, String name, CustomerQuery q, String sort, CustomerAddress addr, List<String> ls) async {
     Map<String, List<CustomerItem>> m = {};
     await openDB();
     var address = await getCustomerAddress(code, name);
-    addr = address;
+    addr.copy(address);
     StringBuffer sb = StringBuffer();
     StringBuffer sa = StringBuffer();
 
@@ -253,7 +252,6 @@ class DBProvider {
 
         String key = '$y-$month';
         ls.add(key);
-        print(key);
       });
     }
 

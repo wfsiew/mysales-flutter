@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:mysales_flutter/models/customer_query.dart';
 import 'package:mysales_flutter/models/customer_item.dart';
 import 'package:mysales_flutter/models/customer_address.dart';
@@ -23,7 +22,8 @@ class _CustomerItemDetailState extends State<CustomerItemDetail> {
 
   DBProvider dbx;
   String main = '';
-  List<CustomerItem> lf = [];
+  List<CustomerItem> lf = <CustomerItem>[];
+  final List<String> sortOptions = ['item_name', 'salesu desc', 'salesv desc', 'bonusu desc'];
   
   @override
   void initState() {
@@ -32,10 +32,10 @@ class _CustomerItemDetailState extends State<CustomerItemDetail> {
     load();
   }
 
-  void load() async {
+  void load([String sort = '']) async {
     var addr = CustomerAddress();
     List<String> la = [];
-    var m = await dbx.getItemsByCustomer(widget.code, widget.name, widget.param, '', addr, la);
+    var m = await dbx.getItemsByCustomer(widget.code, widget.name, widget.param, sort, addr, la);
     Result r = process(m, la);
     List<CustomerItem> lk = r.list;
     StringBuffer sb = StringBuffer();
@@ -45,7 +45,6 @@ class _CustomerItemDetailState extends State<CustomerItemDetail> {
       if (lx.isNotEmpty) {
         CustomerItem x = lx.first;
         sb.writeln('${x.code} - ${x.name}');
-        print(addr.addr1);
 
         if (isNotEmpty(addr.addr1)) {
           sb.write(addr.addr1);
@@ -92,6 +91,12 @@ class _CustomerItemDetailState extends State<CustomerItemDetail> {
     }
 
     await dbx.closeDB();
+  }
+
+  void sortBy(int i) {
+    setState(() {
+     load(sortOptions[i]);
+    });
   }
 
   Result process(Map<String, List<CustomerItem>> m, List<String> la) {
@@ -182,7 +187,7 @@ class _CustomerItemDetailState extends State<CustomerItemDetail> {
             itemCount: lf?.length ?? 0,
             itemBuilder: (context, i) {
               CustomerItem o = lf[i];
-              if (o.isHeader == true) {
+              if (o.isHeader) {
                 return ListTile(
                   title: Center(
                     child: Text(
@@ -196,9 +201,14 @@ class _CustomerItemDetailState extends State<CustomerItemDetail> {
                 );
               }
 
-              else if (o.isFooter == true) {
+              else if (o.isFooter) {
                 return ListTile(
-                  title: Text('${o.sumunit} (Sales Unit) ${o.sumbonus} (Bonus Unit) ${formatDouble(o.sumvalue)} (Sales Value)'),
+                  title: Text(
+                    '${o.sumunit} (Sales Unit) ${o.sumbonus} (Bonus Unit) ${formatDouble(o.sumvalue)} (Sales Value)',
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic
+                    ),
+                  ),
                 );
               }
 
@@ -214,36 +224,6 @@ class _CustomerItemDetailState extends State<CustomerItemDetail> {
             },
           ),
         ),
-        // ListView.separated(
-        //   separatorBuilder: (context, i) {
-        //     return Container(
-        //       margin: const EdgeInsets.only(left: 12.0, right: 12.0),
-        //       child: Divider(
-        //         color: Theme.of(context).colorScheme.primary, 
-        //         height: 2.0,
-        //       ),
-        //     );
-        //   },
-        //   itemCount: lf?.length ?? 0,
-        //   itemBuilder: (context, i) {
-        //     CustomerItem o = lf[i];
-        //     // if (o.isHeader) {
-        //     //   return ListTile(
-        //     //     title: Text(
-        //     //       o.header,
-        //     //       style: TextStyle(
-        //     //         fontSize: 18.0,
-        //     //         fontWeight: FontWeight.bold
-        //     //       ),
-        //     //     ),
-        //     //   );
-        //     // }
-
-        //     return ListTile(
-        //       title: Text(o.item),
-        //     );
-        //   },
-        // ),
       ],
     );
   }
@@ -253,6 +233,33 @@ class _CustomerItemDetailState extends State<CustomerItemDetail> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          PopupMenuButton(
+            onSelected: (int i) {
+              sortBy(i);
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  value: 0,
+                  child: Text('By Item'),
+                ),
+                PopupMenuItem(
+                  value: 1,
+                  child: Text('By Sales Unit'),
+                ),
+                PopupMenuItem(
+                  value: 2,
+                  child: Text('By Sales Value'),
+                ),
+                PopupMenuItem(
+                  value: 3,
+                  child: Text('By Bonus Unit'),
+                ),
+              ];
+            },
+          ),
+        ],
       ),
       body: buildContent(),
     );

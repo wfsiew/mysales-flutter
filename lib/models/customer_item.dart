@@ -25,8 +25,8 @@ class CustomerItem {
     this.bonus,
 
     this.header,
-    this.isHeader,
-    this.isFooter,
+    this.isHeader = false,
+    this.isFooter = false,
 
     this.sumunit,
     this.sumbonus,
