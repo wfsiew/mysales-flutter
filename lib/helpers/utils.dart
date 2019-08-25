@@ -1,3 +1,18 @@
+import 'package:intl/intl.dart';
+
+bool isEmpty(String s) {
+  return s?.isEmpty ?? true;
+}
+
+bool isNotEmpty(String s) {
+  return !isEmpty(s);
+}
+
+String formatDouble(double i) {
+  final fmt = NumberFormat('#,##0.00');
+  return fmt.format(i);
+}
+
 String escapeStr(String s) {
   String r = s;
   if (s.isEmpty) {

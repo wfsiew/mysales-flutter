@@ -33,10 +33,10 @@ class CustomerItem {
     this.sumvalue
   });
 
-  factory CustomerItem.fromData(Map<String, dynamic> m, CustomerQuery q) {
+  factory CustomerItem.fromData(Map<String, dynamic> m, CustomerQuery q, String code, String name) {
     return CustomerItem(
-      code: q.code,
-      name: q.name,
+      code: code,
+      name: name,
       item: m['item_name'],
       unit: m['salesu'],
       value: m['salesv'],

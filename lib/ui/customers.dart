@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:mysales_flutter/models/customer_query.dart';
 import 'package:mysales_flutter/models/customer.dart';
+import 'package:mysales_flutter/ui/customer_item_detail.dart';
 import 'package:mysales_flutter/helpers/DBProvider.dart';
 
 class Customers extends StatefulWidget {
@@ -74,7 +75,19 @@ class _CustomersState extends State<Customers> {
                 ),
               ),
               onTap: () {
-                
+                var prm = widget.param;
+                prm.code = o.code;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CustomerItemDetail(
+                      title: 'Customer Item Details',
+                      param: prm,
+                      code: o.code,
+                      name: o.name,
+                    )
+                  ),
+                );
               },
             );
           },
