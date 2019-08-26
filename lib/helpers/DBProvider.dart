@@ -6,6 +6,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:mysales_flutter/models/customer.dart';
 import 'package:mysales_flutter/models/customer_address.dart';
 import 'package:mysales_flutter/models/customer_item.dart';
+import 'package:mysales_flutter/models/sales_summary.dart';
+import 'package:mysales_flutter/models/target.dart';
 import 'package:mysales_flutter/models/customer_query.dart';
 import 'package:mysales_flutter/helpers/utils.dart';
 
@@ -164,7 +166,7 @@ class DBProvider {
   Future<CustomerAddress> getCustomerAddress(String code, String name) async {
     String q = '''select cust_addr1, cust_addr2, cust_addr3, postal_code, area, territory, telephone, contact_person 
                   from sales where cust_code = '$code' and cust_name = '$name'
-                  ''';
+    ''';
     var lx = await db.rawQuery(q);
     Map<String, dynamic> m = lx.first;
     return CustomerAddress.fromData(m);
@@ -256,5 +258,88 @@ class DBProvider {
     }
 
     return m;
+  }
+
+  Future<SalesSummary> getHalfYearlySummary(String h, String product, Target t) async {
+    SalesSummary o = SalesSummary(productGroup: product, target: t.value);
+    int year = DateTime.now().year;
+    int pyear = year - 1;
+    String years = '$year,$pyear';
+    String months = getHalfYearMonths(h);
+
+    String s = '''select year, sum(sales_value) salesv from sales
+                  where period in ($months) 
+                  and product_group like '$product%' 
+                  and year in ($years) 
+                  group by year
+    ''';
+    var lx = await db.rawQuery(s);
+    lx.forEach((x) {
+      int y = x['year'];
+      if (y == year) {
+        o.actual = x['salesv'];
+      }
+
+      else if (y == pyear) {
+        o.actual1 = x['salesv'];
+      }
+    });
+
+    return o;
+  }
+
+  Future<SalesSummary> getQuarterlySummary(String quarter, String product, Target t) async {
+    SalesSummary o = SalesSummary(productGroup: product, target: t.value);
+    int year = DateTime.now().year;
+    int pyear = year - 1;
+    String years = '$year,$pyear';
+    String months = getQuarterMonths(quarter);
+
+    String s = '''select year, sum(sales_value) salesv from sales
+                  where period in ($months)
+                  and product_group like '$product%'
+                  and year in ($year)
+                  group by year
+    ''';
+    var lx = await db.rawQuery(s);
+    lx.forEach((x) {
+      int y = x['year'];
+      if (y == year) {
+        o.actual = x['salesv'];
+      }
+
+      else if (y == pyear) {
+        o.actual1 = x['pyear'];
+      }
+    });
+
+    return o;
+  }
+
+  Future<SalesSummary> getMontlySummary(String months, String product, Target t) async {
+    SalesSummary o = SalesSummary(productGroup: product, target: t.value);
+    int year = DateTime.now().year;
+    int pyear = year - 1;
+    String years = '$year,$pyear';
+
+    String s = '''select year, sum(sales_value) as salesv from sales
+                  where period in ($months)
+                  and product_group like '$product%'
+                  and year in ($year)
+                  group by year
+    ''';
+    var lx = await db.rawQuery(s);
+    lx.forEach((x) {
+      int y = x['year'];
+      if (y == year) {
+        o.actual = x['salesv'];
+      }
+
+      else if (y == pyear) {
+        o.actual1 = x['pyear'];
+      }
+    });
+
+    return o;
   }
 }
