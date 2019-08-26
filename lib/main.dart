@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mysales_flutter/ui/home.dart';
+import 'package:mysales_flutter/ui/sales_summary.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,7 +9,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
@@ -22,7 +22,26 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: Home(title: 'Home'),
+      home: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            bottom: TabBar(
+              tabs: <Widget>[
+                Tab(icon: Icon(Icons.home)),
+                Tab(icon: Icon(Icons.library_books)),
+              ],
+            ),
+            title: Text('My Sales')
+          ),
+          body: TabBarView(
+            children: <Widget>[
+              Home(title: 'Home'),
+              SalesSummary(title: 'Sales Summary'),
+            ],
+          ),
+        ),
+      )
     );
   }
 }

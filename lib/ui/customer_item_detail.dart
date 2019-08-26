@@ -60,7 +60,7 @@ class _CustomerItemDetailState extends State<CustomerItemDetail> {
           }
         }
 
-        if(isNotEmpty(addr.addr3)) {
+        if (isNotEmpty(addr.addr3)) {
           if (sb.toString().trim().endsWith(',')) {
             sb.write(' ${addr.addr3}');
           }

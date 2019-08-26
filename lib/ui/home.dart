@@ -85,12 +85,8 @@ class _HomeState extends State<Home> {
               width: MediaQuery.of(context).size.width,
               child: RaisedButton(
                 elevation: 5,
-                color: Theme.of(context).primaryColor,
                 child: Text(
                   'Item',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
                 ),
                 onPressed: () async {
                   var lx = await Navigator.push(
@@ -119,12 +115,8 @@ class _HomeState extends State<Home> {
               width: MediaQuery.of(context).size.width,
               child: RaisedButton(
                 elevation: 5,
-                color: Theme.of(context).primaryColor,
                 child: Text(
                   'Product Group',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
                 ),
                 onPressed: () async {
                   var lx = await Navigator.push(
@@ -153,12 +145,8 @@ class _HomeState extends State<Home> {
               width: MediaQuery.of(context).size.width,
               child: RaisedButton(
                 elevation: 5,
-                color: Theme.of(context).primaryColor,
                 child: Text(
                   'Territories',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
                 ),
                 onPressed: () async {
                   var lx = await Navigator.push(
@@ -187,12 +175,8 @@ class _HomeState extends State<Home> {
               width: MediaQuery.of(context).size.width,
               child: RaisedButton(
                 elevation: 5,
-                color: Theme.of(context).primaryColor,
                 child: Text(
                   'Periods',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
                 ),
                 onPressed: () async {
                   var lx = await Navigator.push(
@@ -221,12 +205,8 @@ class _HomeState extends State<Home> {
               width: MediaQuery.of(context).size.width,
               child: RaisedButton(
                 elevation: 5,
-                color: Theme.of(context).primaryColor,
                 child: Text(
                   'Year',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
                 ),
                 onPressed: () async {
                   var lx = await Navigator.push(
