@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mysales_flutter/helpers/DBProvider.dart';
+import 'package:mysales_flutter/helpers/utils.dart';
 import 'package:mysales_flutter/ui/items.dart';
-
+import 'package:mysales_flutter/ui/sales_summaries.dart';
 
 class SalesSummary extends StatefulWidget {
   SalesSummary({Key key, this.title}) : super(key: key);
@@ -83,7 +84,17 @@ class _SalesSummaryState extends State<SalesSummary> {
                   ),
                 ),
                 onPressed: () {
-                  
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SalesSummaries(
+                        title: 'Sales Summary',
+                        month: getSelected(selectedPeriods),
+                        quarter: '',
+                        halfyear: '',
+                      )
+                    ),
+                  );
                 },
               ),
             ),
@@ -126,7 +137,17 @@ class _SalesSummaryState extends State<SalesSummary> {
                   ),
                 ),
                 onPressed: () {
-                  
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SalesSummaries(
+                        title: 'Sales Summary',
+                        month: '',
+                        quarter: getSelected(selectedQuarters),
+                        halfyear: '',
+                      )
+                    ),
+                  );
                 },
               ),
             ),
@@ -169,7 +190,17 @@ class _SalesSummaryState extends State<SalesSummary> {
                   ),
                 ),
                 onPressed: () {
-                  
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SalesSummaries(
+                        title: 'Sales Summary',
+                        month: '',
+                        quarter: '',
+                        halfyear: getSelected(selectedHalfYears),
+                      )
+                    ),
+                  );
                 },
               ),
             ),

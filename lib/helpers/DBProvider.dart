@@ -164,10 +164,10 @@ class DBProvider {
   }
 
   Future<CustomerAddress> getCustomerAddress(String code, String name) async {
-    String q = '''select cust_addr1, cust_addr2, cust_addr3, postal_code, area, territory, telephone, contact_person 
+    String s = '''select cust_addr1, cust_addr2, cust_addr3, postal_code, area, territory, telephone, contact_person 
                   from sales where cust_code = '$code' and cust_name = '$name'
     ''';
-    var lx = await db.rawQuery(q);
+    var lx = await db.rawQuery(s);
     Map<String, dynamic> m = lx.first;
     return CustomerAddress.fromData(m);
   }
@@ -298,7 +298,7 @@ class DBProvider {
     String s = '''select year, sum(sales_value) salesv from sales
                   where period in ($months)
                   and product_group like '$product%'
-                  and year in ($year)
+                  and year in ($years)
                   group by year
     ''';
     var lx = await db.rawQuery(s);
@@ -325,7 +325,7 @@ class DBProvider {
     String s = '''select year, sum(sales_value) as salesv from sales
                   where period in ($months)
                   and product_group like '$product%'
-                  and year in ($year)
+                  and year in ($years)
                   group by year
     ''';
     var lx = await db.rawQuery(s);
