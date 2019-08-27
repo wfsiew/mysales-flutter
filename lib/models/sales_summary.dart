@@ -12,22 +12,30 @@ class SalesSummary {
   });
 
   int get actualVsTarget {
-    var v = (actual * 100 / target) as int;
+    if ((target ?? 0) == 0) {
+      return 0;
+    }
+
+    var v = (actual ?? 0) * 100 / target;
     int k = v.round();
     return k;
   }
 
   double get actualVsTargetDiff {
-    return actual - target;
+    return (actual ?? 0) - (target ?? 0);
   }
 
   int get actualVsPrevYear {
-    var v = actual * 100 / actual1;
+    if ((actual1 ?? 0) == 0) {
+      return 0;
+    }
+
+    var v = (actual ?? 0) * 100 / actual1;
     int k = v.round();
     return k;
   }
 
   double get actualVsPrevYearDiff {
-    return actual - actual1;
+    return (actual ?? 0) - (actual1 ?? 0);
   }
 }

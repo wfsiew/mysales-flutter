@@ -328,6 +328,7 @@ class DBProvider {
                   and year in ($years)
                   group by year
     ''';
+    print(s);
     var lx = await db.rawQuery(s);
     lx.forEach((x) {
       int y = x['year'];

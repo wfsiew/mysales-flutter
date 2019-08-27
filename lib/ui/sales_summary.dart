@@ -83,7 +83,7 @@ class _SalesSummaryState extends State<SalesSummary> {
                     color: Colors.white,
                   ),
                 ),
-                onPressed: () {
+                onPressed: selectedPeriods.isEmpty ? null : () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -136,7 +136,7 @@ class _SalesSummaryState extends State<SalesSummary> {
                     color: Colors.white,
                   ),
                 ),
-                onPressed: () {
+                onPressed: selectedQuarters.isEmpty ? null : () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -189,7 +189,7 @@ class _SalesSummaryState extends State<SalesSummary> {
                     color: Colors.white,
                   ),
                 ),
-                onPressed: () {
+                onPressed: selectedHalfYears.isEmpty ? null : () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(

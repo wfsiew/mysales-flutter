@@ -10,7 +10,7 @@ bool isNotEmpty(String s) {
 
 String formatDouble(double i) {
   final fmt = NumberFormat('#,##0.00');
-  return fmt.format(i);
+  return fmt.format(i ?? 0);
 }
 
 String escapeStr(String s) {

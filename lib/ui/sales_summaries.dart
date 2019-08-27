@@ -37,7 +37,7 @@ class _SalesSummariesState extends State<SalesSummaries> {
     Map<String, Target> mt;
     await tdbx.openDB();
 
-    var productGroups = await dbx.getProductGroups();
+    var productGroups = await tdbx.getProductGroups();
     if (isNotEmpty(widget.month)) {
       mt = await tdbx.getMonthlyTarget(widget.month);
     }
@@ -56,7 +56,9 @@ class _SalesSummariesState extends State<SalesSummaries> {
       SalesSummary monthlySummary;
 
       if (isNotEmpty(widget.month)) {
+        print('xxx');
         monthlySummary = await dbx.getMontlySummary(widget.month, product, mt[product]);
+        print('yyy');
       }
 
       else if (isNotEmpty(widget.quarter)) {
@@ -105,22 +107,17 @@ class _SalesSummariesState extends State<SalesSummaries> {
           itemCount: snapshot.data.length,
           itemBuilder: (context, i) {
             SalesSummary o = snapshot.data[i];
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: Text(o.productGroup),
-                ),
-                Expanded(
-                  child: Text('Actual: ${formatDouble(o.actual)}'),
-                ),
-                Expanded(
-                  child: Text('Target: ${formatDouble(o.target)} (${o.actualVsTarget} %, ${formatDouble(o.actualVsTargetDiff)})'),
-                ),
-                Expanded(
-                  child: Text('Last Year: ${formatDouble(o.actual1)} (${o.actualVsPrevYear} %, ${formatDouble(o.actualVsPrevYearDiff)})'),
-                )
-              ],
+            return Container(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(o.productGroup),
+                  Text('Actual: ${formatDouble(o.actual)}'),
+                  Text('Target: ${formatDouble(o.target)} (${o.actualVsTarget} %, ${formatDouble(o.actualVsTargetDiff)})'),
+                  Text('Last Year: ${formatDouble(o.actual1)} (${o.actualVsPrevYear} %, ${formatDouble(o.actualVsPrevYearDiff)})'),
+                ],
+              ),
             );
           },
         );

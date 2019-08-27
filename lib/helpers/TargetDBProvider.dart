@@ -26,7 +26,7 @@ class TargetDBProvider {
 
   Future<List<String>> getProductGroups() async {
     List<String> ls = <String>[];
-    var lx = await db.rawQuery("select distinct product_group from sales where product_group not in ('0') order by product_group");
+    var lx = await db.rawQuery("select distinct product_group from target order by product_group");
     ls = lx.map<String>((x) => x['product_group']).toList();
     return ls;
   }
@@ -77,7 +77,7 @@ class TargetDBProvider {
 
   Future<Map<String, Target>> getMonthlyTarget(String months) async {
     Map<String, Target> m = {};
-    int year = DateTime.now().year;
+    int year = DateTime.now().year - 1;
 
     String s = '''select product_group, sum(sales_value) salesv from target
                   where year = $year
