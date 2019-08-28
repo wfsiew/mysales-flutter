@@ -156,7 +156,7 @@ class _SalesSummaryState extends State<SalesSummary> {
               child: RaisedButton(
                 elevation: 5,
                 child: Text(
-                  'Quarterly'
+                  'Half Yearly'
                 ),
                 onPressed: () async {
                   var lx = await Navigator.push(

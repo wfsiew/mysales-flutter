@@ -317,6 +317,7 @@ class DBProvider {
   }
 
   Future<SalesSummary> getMontlySummary(String months, String product, Target t) async {
+    print('aaaa ${t.value}');
     SalesSummary o = SalesSummary(productGroup: product, target: t.value);
     int year = DateTime.now().year;
     int pyear = year - 1;

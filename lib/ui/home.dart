@@ -38,32 +38,42 @@ class _HomeState extends State<Home> {
 
   void load() async {
     var dbx = DBProvider();
-    await dbx.openDB();
-    var lss = await dbx.getCustomers();
-    var lii = await dbx.getItems();
-    var lpp = await dbx.getProductGroups();
-    var ltt = await dbx.getTerritories();
-    await dbx.closeDB();
 
-    int year = DateTime.now().year;
-    int gap = year - 2012 + 1;
+    try {
+      await dbx.openDB();
+      var lss = await dbx.getCustomers();
+      var lii = await dbx.getItems();
+      var lpp = await dbx.getProductGroups();
+      var ltt = await dbx.getTerritories();
 
-    List<String> la = List.generate(12, (int i) {
-      return '${i + 1}';
-    });
+      int year = DateTime.now().year;
+      int gap = year - 2012 + 1;
 
-    List<String> lb = List.generate(gap, (int i) {
-      return '${year - i}';
-    });
+      List<String> la = List.generate(12, (int i) {
+        return '${i + 1}';
+      });
 
-    setState(() {
-     ls = lss; 
-     li = lii;
-     lp = lpp;
-     lt = ltt;
-     lperiod = la;
-     lyear = lb;
-    });
+      List<String> lb = List.generate(gap, (int i) {
+        return '${year - i}';
+      });
+
+      setState(() {
+       ls = lss; 
+       li = lii;
+       lp = lpp;
+       lt = ltt;
+       lperiod = la;
+       lyear = lb;
+      });
+    }
+
+    catch (error) {
+
+    }
+
+    finally {
+      await dbx.closeDB();
+    }
   }
 
   Widget buildContent() {

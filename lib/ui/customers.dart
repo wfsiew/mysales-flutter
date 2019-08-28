@@ -29,7 +29,20 @@ class _CustomersState extends State<Customers> {
   }
 
   Future<List<Customer>> load([String sort = '']) async {
-    var lx = await dbx.filterCustomer(widget.param, sort);
+    List<Customer> lx;
+
+    try {
+      lx = await dbx.filterCustomer(widget.param, sort);
+    }
+
+    catch (error) {
+
+    }
+
+    finally {
+      await dbx.closeDB();
+    }
+    
     return lx;
   }
 
@@ -49,7 +62,19 @@ class _CustomersState extends State<Customers> {
 
         if (snapshot.data.length < 1) {
           return Center(
-            child: Text('No records found!'),
+            child: Container(
+              padding: const EdgeInsets.all(20.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                border: Border.all(width: 1.0),
+              ),
+              child: Text(
+                'No records found!',
+                style: TextStyle(
+                  fontSize: 14.0
+                ),
+              ),
+            ),
           );
         }
 

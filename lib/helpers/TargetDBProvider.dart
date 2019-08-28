@@ -77,7 +77,7 @@ class TargetDBProvider {
 
   Future<Map<String, Target>> getMonthlyTarget(String months) async {
     Map<String, Target> m = {};
-    int year = DateTime.now().year - 1;
+    int year = DateTime.now().year;
 
     String s = '''select product_group, sum(sales_value) salesv from target
                   where year = $year

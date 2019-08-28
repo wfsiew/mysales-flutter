@@ -24,6 +24,7 @@ class _CustomerItemDetailState extends State<CustomerItemDetail> {
   String main = '';
   List<CustomerItem> lf = <CustomerItem>[];
   final List<String> sortOptions = ['item_name', 'salesu desc', 'salesv desc', 'bonusu desc'];
+  bool isLoading = false;
   
   @override
   void initState() {
@@ -35,62 +36,79 @@ class _CustomerItemDetailState extends State<CustomerItemDetail> {
   void load([String sort = '']) async {
     var addr = CustomerAddress();
     List<String> la = [];
-    var m = await dbx.getItemsByCustomer(widget.code, widget.name, widget.param, sort, addr, la);
-    Result r = process(m, la);
-    List<CustomerItem> lk = r.list;
-    StringBuffer sb = StringBuffer();
 
-    if (la.isNotEmpty) {
-      List<CustomerItem> lx = m[la.first];
-      if (lx.isNotEmpty) {
-        CustomerItem x = lx.first;
-        sb.writeln('${x.code} - ${x.name}');
+    setState(() {
+     isLoading = true; 
+    });
 
-        if (isNotEmpty(addr.addr1)) {
-          sb.write(addr.addr1);
-        }
+    try {
+      var m = await dbx.getItemsByCustomer(widget.code, widget.name, widget.param, sort, addr, la);
+      Result r = process(m, la);
+      List<CustomerItem> lk = r.list;
+      StringBuffer sb = StringBuffer();
 
-        if (isNotEmpty(addr.addr2)) {
-          if (sb.toString().trim().endsWith(',')) {
-            sb.write(' ${addr.addr2}');
+      if (la.isNotEmpty) {
+        List<CustomerItem> lx = m[la.first];
+        if (lx.isNotEmpty) {
+          CustomerItem x = lx.first;
+          sb.writeln('${x.code} - ${x.name}');
+
+          if (isNotEmpty(addr.addr1)) {
+            sb.write(addr.addr1);
           }
 
-          else {
-            sb.write(', ${addr.addr2}');
+          if (isNotEmpty(addr.addr2)) {
+            if (sb.toString().trim().endsWith(',')) {
+              sb.write(' ${addr.addr2}');
+            }
+
+            else {
+              sb.write(', ${addr.addr2}');
+            }
           }
-        }
 
-        if (isNotEmpty(addr.addr3)) {
-          if (sb.toString().trim().endsWith(',')) {
-            sb.write(' ${addr.addr3}');
+          if (isNotEmpty(addr.addr3)) {
+            if (sb.toString().trim().endsWith(',')) {
+              sb.write(' ${addr.addr3}');
+            }
+
+            else {
+              sb.write(', ${addr.addr3}');
+            }
           }
 
-          else {
-            sb.write(', ${addr.addr3}');
+          if (isNotEmpty(addr.telephone)) {
+            sb.writeln();
+            sb.write(addr.telephone);
           }
-        }
 
-        if (isNotEmpty(addr.telephone)) {
-          sb.writeln();
-          sb.write(addr.telephone);
-        }
+          if (isNotEmpty(addr.contact)) {
+            sb.writeln();
+            sb.write(addr.contact);
+          }
 
-        if (isNotEmpty(addr.contact)) {
-          sb.writeln();
-          sb.write(addr.contact);
-        }
+          sb.writeln('\nTotal Sales Unit: ${r.totalSalesUnit}');
+          sb.writeln('Total Bonus Unit: ${r.totalBonusUnit}');
+          sb.writeln('Total Sales Value: ${formatDouble(r.totalSalesValue)}');
 
-        sb.writeln('\nTotal Sales Unit: ${r.totalSalesUnit}');
-        sb.writeln('Total Bonus Unit: ${r.totalBonusUnit}');
-        sb.writeln('Total Sales Value: ${formatDouble(r.totalSalesValue)}');
-        setState(() {
-         main = sb.toString();
-         lf = lk;
-        });
+          setState(() {
+           main = sb.toString();
+           lf = lk;
+           isLoading = false;
+          });
+        }
       }
     }
 
-    await dbx.closeDB();
+    catch (error) {
+      setState(() {
+       isLoading = false; 
+      });
+    }
+
+    finally {
+      await dbx.closeDB();
+    }
   }
 
   void sortBy(int i) {
@@ -156,6 +174,10 @@ class _CustomerItemDetailState extends State<CustomerItemDetail> {
   }
 
   Widget buildContent() {
+    if (isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
